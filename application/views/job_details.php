@@ -1,7 +1,7 @@
-
+<?php echo $this->session->flashdata('message');  ?>  
 <div class="unit-5 overlay" style="background-image: url('<?=base_url()?>asset/images/hero_2.jpg');">
   <div class="container text-center">
-    <h2 class="mb-0"><?=$jobs[0]['job_title']?></h2>
+    <h2 class="mb-0"><?=$jobs[0]['title']?></h2>
   </div>
 </div>
 
@@ -10,103 +10,51 @@
     <div class="row">
 
       <div class="col-md-12 col-lg-8 mb-5">
+        <?php if ($jobs[0]['user_id'] == $this->session->userdata('userid')) { ?>
+        <div class=" col-md-12 pull-right">
+
+          <span style="float: right;" class="btn btn-primary  py-2 px-4"><a href="<?=base_url()?>Employer/delete_job/<?=$jobs[0]['id']?>" style="color: white;">Delete</a></span>
+
+          <span style="float: right;margin-left: 10px;margin-right: 10px;" class="btn btn-primary  py-2 px-4"><a href="<?=base_url()?>Employer/applicants/<?=$jobs[0]['id']?>" style="color: white;">Applicants</a></span>
+
+          <span style="float: right;" class="btn btn-primary  py-2 px-4"><a href="<?=base_url()?>Employer/edit_job/<?=$jobs[0]['id']?>" style="color: white;">Edit</a></span>
+        </div> <br><br>
+      <?php } ?>
         <div class="p-5 bg-white">
+
+
           <div class="mb-4 mb-md-5 mr-5">
            <div class="job-post-item-header d-flex align-items-center">
-             <h2 class="mr-3 text-black h4"><?=$jobs[0]['job_title']?></h2>
+             <h2 class="mr-3 text-black h4"><?=$jobs[0]['title']?></h2>
+
              <div class="badge-wrap">
-              <span class="border border-warning text-warning py-2 px-4 rounded"><?=$jobs[0]['job_type']?></span>
+              <span class="border border-warning text-warning py-2 px-4 rounded"><?=$jobs[0]['type']?></span>
+
             </div>
           </div>
-          <div class="job-post-item-body d-block d-md-flex">
-           <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span> <a href="#"><?=$jobs[0]['location']?></a></div>
-         </div>
-       </div>
-
-
-
-      <p><?=$jobs[0]['job_description']?></p>
-
-      <p class="mt-5"><a href="#" class="btn btn-primary  py-2 px-4">Apply Job</a></p>
-    </div>
-  </div>
-
-  <div class="col-lg-4">
-
-
-    <div class="p-4 mb-3 bg-white">
-      <h3 class="h5 text-black mb-3">Company Details</h3>
-      <p><strong><?=$jobs[0]['company_name']?></strong></p>
-      <p><?=$jobs[0]['company_description']?></p>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-
-
-
-<div class="site-section">
-  <div class="container">
-    <div class="row justify-content-center text-center mb-5">
-      <div class="col-md-6" data-aos="fade" >
-        <h2>Frequently Ask Questions</h2>
-      </div>
-    </div>
-
-
-    <div class="row justify-content-center" data-aos="fade" data-aos-delay="100">
-      <div class="col-md-8">
-        <div class="accordion unit-8" id="accordion">
-          <div class="accordion-item">
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">What is the name of your company<span class="icon"></span></a>
-            </h3>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quae cumque perspiciatis aperiam accusantium facilis provident aspernatur nisi optio debitis dolorum, est eum eligendi vero aut ad necessitatibus nulla sit labore doloremque magnam! Ex molestiae, dolor tempora, ad fuga minima enim mollitia consequuntur, necessitatibus praesentium eligendi officia recusandae culpa tempore eaque quasi ullam magnam modi quidem in amet. Quod debitis error placeat, tempore quasi aliquid eaque vel facilis culpa voluptate.</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
-
-          <div class="accordion-item">
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">How much pay for 3  months?<span class="icon"></span></a>
-            </h3>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
-
-          <div class="accordion-item">
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">Do I need to register?  <span class="icon"></span></a>
-            </h3>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
-
-          <div class="accordion-item">
-            <h3 class="mb-0 heading">
-              <a class="btn-block" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseFour">Who should I contact in case of support.<span class="icon"></span></a>
-            </h3>
-            <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="body-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ad laborum expedita. Nostrum iure atque enim quisquam minima distinctio omnis, consequatur aliquam suscipit, quidem, esse aspernatur! Libero, excepturi animi repellendus porro impedit nihil in doloremque a quaerat enim voluptatum, perspiciatis, quas dignissimos maxime ut cum reiciendis eius dolorum voluptatem aliquam!</p>
-              </div>
-            </div>
-          </div> <!-- .accordion-item -->
 
         </div>
+
+        <p><?=$jobs[0]['description']?></p>
+        <p><?=$jobs[0]['requirements']?></p>
+        <p><?=$jobs[0]['location']?></p>
+        <p><?=$jobs[0]['salary_range']?>BDT</p>
+        <?php if (($jobs[0]['user_id'] != $this->session->userdata('userid')) && ($this->session->userdata('user_type') !='employer')) { ?>
+          <p class="mt-5"><a href="<?=base_url()?>Employee/apply_job/<?=$jobs[0]['id']?>" class="btn btn-primary  py-2 px-4">Apply Job</a></p>
+        <?php } ?>
       </div>
     </div>
 
+    <div class="col-lg-4">
+
+
+      <div class="p-4 mb-3 bg-white">
+        <h3 class="h5 text-black mb-3">Company Details</h3>
+        <p><strong><?=$jobs[0]['company_name']?></strong></p>
+        <p><?=$jobs[0]['company_description']?></p>
+      </div>
+    </div>
   </div>
+</div>
 </div>
 

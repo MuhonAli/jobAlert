@@ -5,18 +5,12 @@
         <div class="row align-items-center">
           <div class="col-12" data-aos="fade">
             <h1>Find Job</h1>
-            <form action="#">
+            <form action="<?=base_url()?>Jobs/all_jobs">
               <div class="row mb-3">
                 <div class="col-md-9">
                   <div class="row">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                      <input type="text" class="mr-3 form-control border-0 px-4" placeholder="job title, keywords or company name ">
-                    </div>
-                    <div class="col-md-6 mb-3 mb-md-0">
-                      <div class="input-wrap">
-                        <span class="icon icon-room"></span>
-                      <input type="text" class="form-control form-control-block search-input  border-0 px-4" id="autocomplete" placeholder="city, province or region" onFocus="geolocate()">
-                      </div>
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <input type="text" name="search" class="mr-3 form-control border-0 px-4" placeholder="job title, keywords, location ">
                     </div>
                   </div>
                 </div>
@@ -41,12 +35,17 @@
         </div>
         <div class="row">
        <?php foreach ($categories as $category) { ?>   
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="100">
-            <a href="#" class="h-100 feature-item">
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="100" >
+            <!-- <a href="" class="h-100 feature-item"> -->
+              <form  class="h-100 feature-item" method="get" action="<?=base_url()?>Jobs/all_jobs" >
               <span class="d-block icon <?=$category['icon']?> mb-3 text-primary"></span>
-              <h2><?=$category['category_name']?></h2>
+             <!--  <h2><?=$category['category_name']?></h2> -->
+              <input type="hidden" name="category_id" value="<?=$category['id']?>">
+              <input type="submit" style="background: none;border: none;" onMouseOver="this.style.color='#0F0'"
+              onMouseOut="this.style.color='rgba(0, 0, 0, 0.6)'" name="submit" value="<?=$category['category_name']?>">
+              </form>
               <!-- <span class="counting">10,391</span> -->
-            </a>
+           <!--  </a> -->
           </div>
 <?php } ?>
         </div>
@@ -65,15 +64,15 @@
 <?php foreach ($jobs as $job) {  ?>
               <a href="<?=base_url()?>Jobs/job_details/<?=$job['id']?>" class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                 <div class="company-logo blank-logo text-center text-md-left pl-3">
-                  <img src="asset/images/company_logo_blank.png" alt="Image" class="img-fluid mx-auto">
+                  <img src="<?=base_url()?>images/<?=$job['company_logo']?>" alt="Image" class="img-fluid mx-auto">
                 </div>
                 <div class="job-details h-100">
                   <div class="p-3 align-self-center">
-                    <h3><?=$job['job_title']?></h3>
+                    <h3><?=$job['title']?></h3>
                     <div class="d-block d-lg-flex">
                       <div class="mr-3"><span class="icon-suitcase mr-1"></span> <?=$job['company_name']?></div>
                       <div class="mr-3"><span class="icon-room mr-1"></span> <?=$job['location']?></div>
-                      <div><span class="icon-money mr-1"></span> <?=$job['salary']?></div>
+                      <div><span class="icon-money mr-1"></span> <?=$job['salary_range']?></div>
                     </div>
                   </div>
                 </div>
@@ -90,7 +89,7 @@
             </div>
 
             <div class="col-md-12 text-center mt-5">
-              <a href="#" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
+              <a href="<?=base_url()?>Jobs/all_jobs" class="btn btn-primary rounded py-3 px-5"><span class="icon-plus-circle"></span> Show More Jobs</a>
             </div>
           </div>
         
@@ -98,7 +97,7 @@
       </div>
     </div>
 
-    <div class="site-section" data-aos="fade">
+<!--     <div class="site-section" data-aos="fade">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6 mb-5 mb-md-0">
@@ -124,7 +123,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
     <div class="site-blocks-cover overlay inner-page" style="background-image: url('asset/images/hero_1.jpg');" data-aos="fade" data-stellar-background-ratio="0.5">
@@ -133,7 +132,7 @@
           <div class="col-md-6 text-center" data-aos="fade">
             <h1 class="h3 mb-0">Your Dream Job</h1>
             <p class="h3 text-white mb-5">Is Waiting For You</p>
-            <p><a href="#" class="btn btn-outline-warning py-3 px-4">Find Jobs</a> <a href="#" class="btn btn-warning py-3 px-4">Apply For A Job</a></p>
+            <p><a href="<?=base_url()?>Jobs/all_jobs" class="btn btn-outline-warning py-3 px-4">Find Jobs</a> <a href="<?=base_url()?>Jobs/all_jobs" class="btn btn-warning py-3 px-4">Apply For A Job</a></p>
             
           </div>
         </div>
@@ -170,12 +169,14 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
            <!--  <p><a href="#">Read More <span class="icon-arrow-right small"></span></a></p> -->
           </div>
+
           <div class="text-center p-4 item" data-aos="fade">
             <span class="flaticon-calculator display-3 mb-3 d-block text-primary"></span>
             <h2 class="h4">Finance &amp; Accounting</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
           <!--   <p><a href="#">Read More <span class="icon-arrow-right small"></span></a></p> -->
           </div>
+
         </div>
       </div>
     </div>

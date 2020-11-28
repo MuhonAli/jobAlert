@@ -57,34 +57,32 @@
 
                     <ul class="site-menu js-clone-nav d-none d-lg-block">
 <?php  if($this->session->userdata('user_type')=='employee'){ ?>
-                     <li><a href="categories.html">Browse Jobs</a></li>
-                      <li><a href="<?=base_url()?>Contact/">Contact</a></li>
                       <li><a href="<?=base_url()?>Jobs/all_jobs">Jobs</a></li>
                       <li class="has-children">
-                        <a href="category.html">Profile</a>
+                        <a href="">Profile </a>
                         <ul class="dropdown">
-                          <li><a href="category.html">View Profile</a></li>
-                          <li><a href="#">Applied Job</a></li>
-                          <li><a href="<?=base_url()?>Contact/">Contact</a></li>
-                          <li><a href="new-post.html">Logout</a></li>
+                          <li><a href="<?=base_url()?>Employee/view_profile">View Profile</a></li>
+                          <li><a href="<?=base_url()?>Employee/profile_setting">Profile Settings</a></li>
+                          <li><a href="<?=base_url()?>Employee/applied_jobs">Applied Job</a></li>
                         </ul>
                       </li>
-                     
+                     <li><a href="<?=base_url()?>Contact">Contact</a></li>
+                     <li><a href="<?=base_url()?>Logout">Logout</a></li>
 <?php } else if ($this->session->userdata('user_type')=='employer'){ ?>
                        <li><a href="<?=base_url()?>Jobs/all_jobs">Jobs</a></li>
                       <li class="has-children">
-                        <a href="category.html">Profile</a>
+                        <a href="">Profile</a>
                         <ul class="dropdown arrow-top">
-                          <li><a href="#">Your Jobs</a></li>
+                          <li><a href="<?=base_url()?>Employer/your_jobs">Your Jobs</a></li>
                           <li><a href="<?=base_url()?>Employer/">Profile Settings</a></li>
-                          <li><a href="#">Logout</a></li>
+                          <li><a href="<?=base_url()?>Logout">Logout</a></li>
                         </ul>
                       </li>
-                      <li><a href="<?=base_url()?>Contact/">Contact</a></li>
-                      <li><a href="new-post.html"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
+                      <li><a href="<?=base_url()?>Contact">Contact</a></li>
+                      <li><a href="<?=base_url()?>Jobs/post_job"><span class="bg-primary text-white py-3 px-4 rounded"><span class="icon-plus mr-3"></span>Post New Job</span></a></li>
           <?php } else{?>
                     <li><a href="<?=base_url()?>Jobs/all_jobs">Jobs</a></li>
-                      <li><a href="contact.html">Contact</a></li>
+                      <li><a href="<?=base_url()?>Contact">Contact</a></li>
                       <li><a href="<?=base_url()?>Login">Login</a></li>
                 <?php } ?>
                     </ul>

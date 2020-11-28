@@ -14,42 +14,41 @@ class Jobs extends CI_Controller {
 	public function job_details($id)
 	{
 		
-		$data['jobs']=  $this->db->select('*, jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->where('jobs.id', $id)->order_by('jobs.id','desc')->get()->result_array();
+		$data['jobs']=  $this->db->select('*, jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->where('jobs.id', $id)->get()->result_array();
 
 		$this->load->view('include/header');
 		$this->load->view('job_details', $data);
 		$this->load->view('include/footer');
-} 
+	} 
 
 
 	public function all_jobs()
 	{
-	
-//	$data['jobs']=  $this->db->select('*,jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->order_by('jobs.id','desc')->get()->result_array();
 
 
-$this->load->library('pagination');
+		$this->load->library('pagination');
 
-		if (!empty($_GET['id'])) {
 
-			$query = $this->db->where('id', $_GET['id']);
-			$data['id'] = $_GET['id'];
-		}
+		if (!empty($_GET['category_id'])) {
 
-		if (!empty($_GET['name'])) {
-
-			$query = $this->db->LIKE('name', $_GET['name'],'both');
-			$data['name'] = $_GET['name'];
+			$query = $this->db->where('jobs.category_id', $_GET['category_id']);
 		}
 
 
-		$query=$this->db->select('*,jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->order_by('jobs.id','desc')->get();
+		if (!empty($_GET['search'])) {
 
-		//$data['jobs'] = $query->num_rows();
+			$query = $this->db->LIKE('jobs.title', $_GET['search'],'both');
+			$query = $this->db->OR_LIKE('jobs.description', $_GET['search'],'both');
+			$query = $this->db->OR_LIKE('jobs.location', $_GET['search'],'both');
+			$query = $this->db->OR_LIKE('company.company_name', $_GET['search'],'both');
+		}
+
+
+		$query=$this->db->select('*,jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->order_by('jobs.id','desc')->where('jobs.approved',1)->get();
 
 		$data['jobs'] = $query->result_array();
-
 		$config['suffix']          = "?" . http_build_query($_GET, '', "&");
+
 		$config['base_url']        = site_url('Jobs/all_jobs/');
 		$config['total_rows']      = $query->num_rows();
 		$config['per_page']        = 12;
@@ -81,20 +80,22 @@ $this->load->library('pagination');
 
 		$this->pagination->initialize($config);
 
-		if (!empty($_GET['id'])) {
+		if (!empty($_GET['category_id'])) {
 
-			$query = $this->db->where('id', $_GET['id']);
-			$data['id'] = $_GET['id'];
-		}
-
-		if (!empty($_GET['name'])) {
-
-			$query = $this->db->LIKE('name', $_GET['name'],'both');
-			$data['name'] = $_GET['name'];
+			$query = $this->db->where('jobs.category_id', $_GET['category_id']);
 		}
 
 
-		$query = $this->db->limit($config['per_page'], $data['segment'])->select('*,jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->order_by('jobs.id','desc')->get();
+		if (!empty($_GET['search'])) {
+
+			$query = $this->db->LIKE('jobs.title', $_GET['search'],'both');
+			$query = $this->db->OR_LIKE('jobs.description', $_GET['search'],'both');
+			$query = $this->db->OR_LIKE('jobs.location', $_GET['search'],'both');
+			$query = $this->db->OR_LIKE('company.company_name', $_GET['search'],'both');
+		}
+
+
+		$query = $this->db->limit($config['per_page'], $data['segment'])->select('*,jobs.id as id')->from('jobs')->join('company', 'jobs.user_id = company.user_id')->order_by('jobs.id','desc')->where('jobs.approved',1)->get();
 
 		$data['jobs'] = $query->result_array();
 
@@ -104,5 +105,73 @@ $this->load->library('pagination');
 		$this->load->view('include/footer');
 	}
 
+
+	public function post_job()
+	{
+
+		$this->form_validation->set_rules('title', 'Title', 'required');
+
+		$this->form_validation->set_rules('category_id', 'Category', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
+		
+		$this->form_validation->set_rules('requirements', 'Description', 'required|min_length[10]');
+		$this->form_validation->set_rules('type', 'Type', 'required');
+		$this->form_validation->set_rules('salary_range', 'Salary Range', 'required');
+		$this->form_validation->set_rules('location', 'Job Location', 'required');
+
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$data['company']=  $this->db->select('*')->from('company')->where('user_id',$this->session->userdata('userid'))->get()->result_array();
+			$data['personal']=  $this->db->select('*')->from('users')->where('id',$this->session->userdata('userid'))->get()->result_array();
+			$data['categories']=  $this->db->select('*')->from('job_categories')->get()->result_array();
+
+			$this->load->view('include/header');
+			$this->load->view('employer/post_job',$data);
+			$this->load->view('include/footer');
+		}else{
+
+			$data['title']=$this->input->post('title');
+			$data['category_id']=$this->input->post('category_id');
+			$data['description']=$this->input->post('description');
+			$data['requirements']=$this->input->post('requirements');
+			$data['type']=$this->input->post('type');
+			$data['salary_range']=$this->input->post('salary_range');
+			$data['location']=$this->input->post('location');
+			$data['user_id']=$this->session->userdata('userid');
+
+			$this->db->insert('jobs',$data);
+
+			$msg='<div class="alert alert-success text-center col-md-8 offset-2">Job Posted Successfully!</div>';
+
+			$this->session->set_flashdata('message',$msg);
+			redirect($_SERVER['HTTP_REFERER']);
+
+		}
+	}
+
+	public function job_approve($id)
+	{
+		$this->db->set('approved', 1);
+		$this->db->where('id', $id);
+		$this->db->update('jobs');
+
+		$msg='<div class="alert alert-success">Job approved successfully!</div>';
+		
+		$this->session->set_flashdata('message',$msg);
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function job_reject($id)
+	{
+		$this->db->set('approved', 0);
+		$this->db->where('id', $id);
+		$this->db->update('jobs');
+
+		$msg='<div class="alert alert-success">Job rejected successfully!</div>';
+		
+		$this->session->set_flashdata('message',$msg);
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 
 }

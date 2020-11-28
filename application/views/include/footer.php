@@ -1,4 +1,4 @@
-
+<?php $categories =  $this->db->select('*')->from('job_categories')->get()->result_array(); ?>
 
     
     <footer class="site-footer">
@@ -6,37 +6,38 @@
         
 
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-5">
             <h3 class="footer-heading mb-4 text-white">About</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quos rem ullam, placeat amet.</p>
-            <p><a href="#" class="btn btn-primary pill text-white px-4">Read More</a></p>
+            <p>Job alert - best job providing agency in bangladesh. Create your profile here to get your desire job.</p>
+            <!-- <p><a href="#" class="btn btn-primary pill text-white px-4">Read More</a></p> -->
           </div>
           <div class="col-md-6">
             <div class="row">
               <div class="col-md-6">
                 <h3 class="footer-heading mb-4 text-white">Quick Menu</h3>
                   <ul class="list-unstyled">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Approach</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Careers</a></li>
+                    <li><a href="<?=base_url()?>Contact">Contact</a></li>
+                    <li><a href="<?=base_url()?>Jobs/all_jobs">Jobs</a></li>
                   </ul>
               </div>
               <div class="col-md-6">
                 <h3 class="footer-heading mb-4 text-white">Categories</h3>
-                  <ul class="list-unstyled">
-                    <li><a href="#">Full Time</a></li>
-                    <li><a href="#">Freelance</a></li>
-                    <li><a href="#">Temporary</a></li>
-                    <li><a href="#">Internship</a></li>
-                  </ul>
+                 
+       <?php $i =0;
+        foreach ($categories as $category) { 
+          $i++;
+          if ($i<4) { ?>   
+              <form  method="get" action="<?=base_url()?>Jobs/all_jobs" >
+              <input type="hidden" name="category_id" value="<?=$category['id']?>">
+              <input type="submit" style="color: rgba(255, 255, 255, 0.3);background: none;border: none;" name="submit" value="<?=$category['category_name']?>">
+              </form>
+<?php } } ?>
+                  
               </div>
             </div>
           </div>
 
-          
+<!--           
           <div class="col-md-2">
             <div class="col-md-12"><h3 class="footer-heading mb-4 text-white">Social Icons</h3></div>
               <div class="col-md-12">
@@ -48,7 +49,7 @@
 
                 </p>
               </div>
-          </div>
+          </div> -->
         </div>
         <div class="row pt-5 mt-5 text-center">
           <div class="col-md-12">
